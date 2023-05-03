@@ -4,7 +4,7 @@
 @section('content')
     <div class="dashboard">
         <div class="row expanded">
-            <h2>Dashboard</h2>
+            <h2>Dashboar</h2>
 
         </div>
     </div>
