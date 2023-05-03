@@ -2,15 +2,17 @@
 @section('title','Product Categories')
 
 @section('content')
-    <div class="dashboard">
-        <div class="row expanded">
-            <h2>Product Categories</h2>
+    <div class="dashboard ">
+        <div class="grid-x grid-padding-x">
+            <div class="cell medium-11">
+                <h2>Product Categories</h2>
+            </div>
         </div>
         @if(isset($message))
             <p>{{$message}}</p>
         @endif
-        <div class="row expanded">
-            <div class="small-12 medium-6 column">
+        <div class="grid-x grid-padding-x">
+            <div class="small-12 medium-6 cell">
                 <form action="" method="post">
                     <div class="input-group">
                         <input type="text" class="input-group-field" placeholder="Search by name">
@@ -20,7 +22,7 @@
                     </div>
                 </form>
             </div>
-            <div class="small-12 medium-5 end column">
+            <div class="small-12 medium-5 end cell">
                 <form action="/admin/product/categories" method="post">
                     <div class="input-group">
                         <input type="text" class="input-group-field" name="name" placeholder="Category name">
@@ -32,8 +34,8 @@
                 </form>
             </div>
         </div>
-        <div class="row expanded">
-            <div class="small-12 medium-11 column">
+        <div class="grid-x grid-padding-x">
+            <div class="small-12 medium-11 cell">
                 @if(count($categories))
                     <table class="hover">
                         <tbody>
