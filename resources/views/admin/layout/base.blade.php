@@ -11,7 +11,7 @@
     <script src="https://kit.fontawesome.com/045b3f3edb.js" crossorigin="anonymous"></script>
 
 </head>
-<body>
+<body data-page-id="@yield('data-page-id')">
 
 @include('includes.admin-slidebar')
 
