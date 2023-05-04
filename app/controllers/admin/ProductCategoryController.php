@@ -4,6 +4,7 @@ namespace App\controllers\admin;
 
 use App\classes\CSRFToken;
 use App\classes\Request;
+use App\classes\ValidateRequest;
 use App\models\Category;
 
 class ProductCategoryController
@@ -18,6 +19,17 @@ class ProductCategoryController
             $request = Request::get('post');
 
             if(CSRFToken::verifyCSRFToken($request->token)){
+                $rules = [
+                    'name' => ['required' => true, 'maxLength' => 5, 'string' => true, 'unique' => 'categories']
+                ];
+
+                $validate =  new ValidateRequest;
+                $validate->abide($_POST, $rules);
+
+                if($validate->hasError()){
+                    var_dump($validate->getErrorMessages());
+                    exit;
+                }
                 //process form data
                 Category::create([
                     'name' => $request->name,
