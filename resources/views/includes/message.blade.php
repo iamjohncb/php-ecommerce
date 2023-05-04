@@ -1,4 +1,4 @@
-<div class="grid-x grid-padding-x">
+<div class="grid-padding-x">
     @if(isset($errors))
         <div class="callout alert" data-closable>
             @foreach($errors as $error_array)
