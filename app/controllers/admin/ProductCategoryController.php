@@ -9,9 +9,15 @@ use App\models\Category;
 
 class ProductCategoryController
 {
+    public $table_name = 'categories';
+
     public function show(){
-        $categories = Category::all();
-        return view('admin/products/categories',compact('categories'));
+        $total = Category::all() -> count();
+        $object = new Category;
+
+        list($categories, $links) = paginate(2,$total, $this->table_name, $object);
+
+        return view('admin/products/categories',compact('categories', 'links'));
     }
 
     public function store(){
