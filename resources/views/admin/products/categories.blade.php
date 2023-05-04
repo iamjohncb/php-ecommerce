@@ -8,9 +8,7 @@
                 <h2>Product Categories</h2>
             </div>
         </div>
-        @if(isset($message))
-            <p>{{$message}}</p>
-        @endif
+        @include('includes.message')
         <div class="grid-x grid-padding-x">
             <div class="small-12 medium-6 cell">
                 <form action="" method="post">
