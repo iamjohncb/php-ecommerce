@@ -11334,7 +11334,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(40);
+module.exports = __webpack_require__(41);
 
 
 /***/ }),
@@ -11356,15 +11356,15 @@ __webpack_require__(36);
 __webpack_require__(37);
 //require('../../assets/js/admin/create');
 //require('../../assets/js/admin/dashboard');
-//require('../../assets/js/admin/delete');
-//require('../../assets/js/admin/events');
 __webpack_require__(38);
+//require('../../assets/js/admin/events');
+__webpack_require__(39);
 //require('../../assets/js/pages/cart');
 //require('../../assets/js/pages/home_products');
 //require('../../assets/js/pages/lib');
 //require('../../assets/js/pages/product_details');
 //require('../../assets/js/pages/slider');
-__webpack_require__(39);
+__webpack_require__(40);
 
 /***/ }),
 /* 12 */
@@ -42149,6 +42149,26 @@ module.exports = function(Chart) {
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function($) {(function () {
+    'use strict';
+
+    ACMESTORE.admin.delete = function () {
+        $('table[data-form="deleteForm"]').on('click', '.delete-item', function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+            $('#confirm').foundation('open').on('click', '#delete-btn', function () {
+                form.submit();
+            });
+        });
+    };
+})();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /* WEBPACK VAR INJECTION */(function($, jQuery) {(function () {
     'use strict';
 
@@ -42187,7 +42207,7 @@ module.exports = function(Chart) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(1)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42203,6 +42223,7 @@ module.exports = function(Chart) {
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
+                ACMESTORE.admin.delete();
                 break;
             default:
             //do nothing
@@ -42212,7 +42233,7 @@ module.exports = function(Chart) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

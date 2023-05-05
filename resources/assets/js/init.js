@@ -10,6 +10,7 @@
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
+                ACMESTORE.admin.delete();
                 break;
             default:
                 //do nothing

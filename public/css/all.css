@@ -8352,6 +8352,13 @@ html.is-reveal-open body {
   }
 }
 
+h2 {
+  font-size: 1.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
 .reveal {
   border: 0;
   border-radius: 0.5rem;
@@ -8359,11 +8366,6 @@ html.is-reveal-open body {
 
 .reveal:focus {
   outline-style: none;
-}
-
-.reveal h2 {
-  font-size: 1.5rem;
-  font-weight: 500;
 }
 
 .notification {

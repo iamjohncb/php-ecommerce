@@ -1,3 +1,9 @@
+h2{
+  font-size: 1.5rem;
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
 
 .reveal{
   border:0;
@@ -5,11 +11,6 @@
 
   &:focus{
     outline-style: none;
-  }
-
-  h2{
-    font-size: 1.5rem;
-    font-weight: 500;
   }
 }
 .notification{

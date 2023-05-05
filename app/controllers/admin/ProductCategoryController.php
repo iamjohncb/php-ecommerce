@@ -3,7 +3,9 @@
 namespace App\controllers\admin;
 
 use App\classes\CSRFToken;
+use App\classes\Redirect;
 use App\classes\Request;
+use App\classes\Session;
 use App\classes\ValidateRequest;
 use App\models\Category;
 
@@ -17,7 +19,7 @@ class ProductCategoryController
         $total = Category::all() -> count();
         $object = new Category;
 
-        list($this->categories, $this->links) = paginate(3,$total, $this->table_name, $object);
+        list($this->categories, $this->links) = paginate(6,$total, $this->table_name, $object);
     }
 
     public function show(){
@@ -56,7 +58,7 @@ class ProductCategoryController
                 ]);
 
                 $total = Category::all() -> count();
-                list($this->categories, $this->links) = paginate(3,$total, $this->table_name, new Category);
+                list($this->categories, $this->links) = paginate(6,$total, $this->table_name, new Category);
                 return view('admin/products/categories',[
                     'categories' => $this->categories,
                     'links' => $this->links,
@@ -103,4 +105,24 @@ class ProductCategoryController
 
         return null;
     }
+
+    public function delete($id)
+    {
+        if (Request::has('post')) {
+            $request = Request::get('post');
+
+            if (CSRFToken::verifyCSRFToken($request->token)) {
+                Category::destroy($id);
+
+                Session::add('success', 'Category Deleted');
+
+                Redirect::to('/admin/product/categories');
+
+
+            } else {
+                throw new \Exception('Token mismatch');
+            }
+        }
+    }
+
 }
