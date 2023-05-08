@@ -11334,7 +11334,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(41);
+module.exports = __webpack_require__(42);
 
 
 /***/ }),
@@ -11354,17 +11354,17 @@ __webpack_require__(36);
 
 //custom js files
 __webpack_require__(37);
-//require('../../assets/js/admin/create');
-//require('../../assets/js/admin/dashboard');
 __webpack_require__(38);
-//require('../../assets/js/admin/events');
+//require('../../assets/js/admin/dashboard');
 __webpack_require__(39);
+//require('../../assets/js/admin/events');
+__webpack_require__(40);
 //require('../../assets/js/pages/cart');
 //require('../../assets/js/pages/home_products');
 //require('../../assets/js/pages/lib');
 //require('../../assets/js/pages/product_details');
 //require('../../assets/js/pages/slider');
-__webpack_require__(40);
+__webpack_require__(41);
 
 /***/ }),
 /* 12 */
@@ -42149,6 +42149,46 @@ module.exports = function(Chart) {
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function($, jQuery) {(function () {
+    'use strict';
+
+    ACMESTORE.admin.create = function () {
+        //create subcategory
+        $(".add-subcategory").on('click', function (e) {
+            var token = $(this).data('token');
+            var category_id = $(this).attr('id');
+            var name = $("#subcategory-name-" + category_id).val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/product/subcategory/create',
+                data: { token: token, name: name, category_id: category_id },
+                success: function success(data) {
+                    var response = jQuery.parseJSON(data);
+                    $(".notification").css("display", 'block').delay(4000).slideUp(300).html(response.success);
+                },
+                error: function error(request, _error) {
+                    var errors = jQuery.parseJSON(request.responseText);
+                    var ul = document.createElement('ul');
+                    $.each(errors, function (key, value) {
+                        var li = document.createElement('li');
+                        li.appendChild(document.createTextNode(value));
+                        ul.appendChild(li);
+                    });
+                    $(".notification").css("display", 'block').removeClass('primary').addClass('alert').delay(6000).slideUp(300).html(ul);
+                }
+            });
+
+            e.preventDefault();
+        });
+    };
+})();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(1)))
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /* WEBPACK VAR INJECTION */(function($) {(function () {
     'use strict';
 
@@ -42166,7 +42206,7 @@ module.exports = function(Chart) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($, jQuery) {(function () {
@@ -42207,7 +42247,7 @@ module.exports = function(Chart) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(1)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42224,6 +42264,7 @@ module.exports = function(Chart) {
             case 'adminCategories':
                 ACMESTORE.admin.update();
                 ACMESTORE.admin.delete();
+                ACMESTORE.admin.create();
                 break;
             default:
             //do nothing
@@ -42233,7 +42274,7 @@ module.exports = function(Chart) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
