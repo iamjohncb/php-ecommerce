@@ -108,17 +108,29 @@ class ProductCategoryController extends BaseController
 
     public function delete($id)
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
 
-            if(CSRFToken::verifyCSRFToken($request->token)){
+            if (CSRFToken::verifyCSRFToken($request->token)) {
                 Category::destroy($id);
-                Session::add('success', 'Category Deleted');
-                Redirect::to('/admin/product/categories');
-            }
-            throw new \Exception('Token mismatch');
-        }
 
-        return null;
+                $subcategories = SubCategory::where('category_id', $id)->get();
+                if (count($subcategories)){
+
+                    foreach ($subcategories as $subcategory){
+                        $subcategory->delete();
+                    }
+                }
+
+                Session::add('success', 'Category Deleted');
+
+                Redirect::to('/admin/product/categories');
+
+
+            } else {
+                throw new \Exception('Token mismatch');
+            }
+        }
     }
+
 }

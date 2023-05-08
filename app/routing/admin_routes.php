@@ -8,7 +8,6 @@ $router->map('GET', '/admin/product/categories',
     'App\controllers\admin\ProductCategoryController@show', 'product_category');
 $router->map('POST', '/admin/product/categories',
     'App\controllers\admin\ProductCategoryController@store', 'create_product_category');
-
 $router->map('POST', '/admin/product/categories/[i:id]/edit',
     'App\controllers\admin\ProductCategoryController@edit', 'edit_product_category');
 $router->map('POST', '/admin/product/categories/[i:id]/delete',
@@ -19,3 +18,5 @@ $router->map('POST', '/admin/product/subcategory/create',
     'App\controllers\admin\SubCategoryController@store', 'create_subcategory');
 $router->map('POST', '/admin/product/subcategory/[i:id]/edit',
     'App\controllers\admin\SubCategoryController@edit', 'edit_subcategory');
+$router->map('POST', '/admin/product/subcategory/[i:id]/delete',
+    'App\controllers\admin\SubCategoryController@delete', 'delete_subcategory');

@@ -110,17 +110,17 @@ class SubCategoryController extends BaseController
 
     public function delete($id)
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
 
-            if(CSRFToken::verifyCSRFToken($request->token)){
-                Category::destroy($id);
-                Session::add('success', 'Category Deleted');
+            if (CSRFToken::verifyCSRFToken($request->token)) {
+                SubCategory::destroy($id);
+                Session::add('success', 'Subcategory Deleted');
                 Redirect::to('/admin/product/categories');
-            }
-            throw new \Exception('Token mismatch');
-        }
 
-        return null;
+            } else {
+                throw new \Exception('Token mismatch');
+            }
+        }
     }
 }
