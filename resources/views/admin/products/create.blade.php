@@ -26,6 +26,7 @@
                                    value="{{\App\classes\Request::old('post', 'price')}}">
                         </label>
                     </div>
+
                     <div class="small-12 medium-6 cell">
                         <label>Product Category:
                             <select name="category" id="product-category">
@@ -47,6 +48,36 @@
                             </select>
                         </label>
                     </div>
+
+                    <div class="small-12 medium-6 cell">
+                        <label>Product Quantity:
+                            <select name="quantity">
+                                <option value="{{\App\classes\Request::old('post', 'quantity')?:""}}">
+                                    {{\App\classes\Request::old('post', 'quantity')?:"Select quantity"}}
+                                </option>
+                                @for($i = 1; $i <= 50; $i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
+                            </select>
+                        </label>
+                    </div>
+                    <div class="small-12 medium-6 cell">
+                        <br />
+                        <div class="input-group">
+                            <span class="input-group-label">Product Image:</span>
+                            <input type="file" name="productImage" class="input-group-field">
+                        </div>
+                    </div>
+
+                    <div class="small-12 cell">
+                        <label>Description:
+                        <textarea name="description" placeholder="Description">{{\App\classes\Request::old('post','description')}}</textarea>
+                        </label>
+                        <input type="hidden" name="token" value="{{\App\classes\CSRFToken::_token()}}">
+                        <button class="button alert" type="reset">Reset</button>
+                        <input class="button success float-right" type="submit" value="Save Product">
+                    </div>
+
                 </div>
             </div>
         </form>
