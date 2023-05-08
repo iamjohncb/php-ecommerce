@@ -3,7 +3,7 @@
 @section('data-page-id', 'adminCategories')
 
 @section('content')
-    <div class="category admin_shared">
+    <div class="category">
         <div class="grid-x grid-padding-x">
             <div class="cell medium-11">
                 <h2>Product Categories</h2> <hr />
@@ -132,7 +132,6 @@
                 @endif
             </div>
         </div>
-    </div>
 
     <div class="subcategory">
         <div class="grid-x grid-padding-x">
@@ -223,6 +222,6 @@
             </div>
         </div>
     </div>
-
+    </div>
     @include('includes.delete-modal')
 @endsection
