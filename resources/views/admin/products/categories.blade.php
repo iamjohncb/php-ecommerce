@@ -147,7 +147,7 @@
         <div class="grid-x grid-padding-x">
             <div class="small-12 medium-11 cell">
                 @if(count($subcategories))
-                    <table class="hover  unstriped" data-form="deleteForm">
+                    <table class="hover unstriped" data-form="deleteForm">
                         <thead>
                         <tr> <th>Name</th><th>Slug</th><th>Date Created</th><th width="50">Action</th></tr>
 
