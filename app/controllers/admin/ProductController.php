@@ -6,14 +6,17 @@ use App\classes\CSRFToken;
 use App\classes\Redirect;
 use App\classes\Request;
 use App\classes\Session;
+use App\classes\UploadFile;
 use App\classes\ValidateRequest;
 use App\controllers\BaseController;
 use App\models\Category;
+use App\models\Product;
 use App\models\SubCategory;
 
 class ProductController extends BaseController
 {
-    public $table_name = 'categories';
+    public $table_name = 'products';
+    public $products;
     public $categories;
     public $subcategories;
     public $subcategories_links;
@@ -22,9 +25,14 @@ class ProductController extends BaseController
     public function __construct()
     {
         $this->categories = Category::all();
+        $total = Product::all()->count();
+        list($this->products, $this->links) = paginate(10, $total, $this->table_name, new Product);
+    }
 
-        //list($this->categories, $this->links) = paginate(10, $total, $this->table_name, $object);
-        //list($this->subcategories, $this->subcategories_links) = paginate(10, $subTotal, 'sub_categories', new SubCategory);
+    public function show(){
+        $products = $this->products;
+        $links = $this->links;
+        return view('admin/products/inventory', compact('products', 'links'));
     }
 
     public function showCreateProductForm()
@@ -37,35 +45,55 @@ class ProductController extends BaseController
     {
         if(Request::has('post')){
             $request = Request::get('post');
+            $file_error = [];
 
             if(CSRFToken::verifyCSRFToken($request->token)){
                 $rules = [
-                    'name' => ['required' => true, 'minLength' => 3, 'mixed' => true, 'unique' => 'categories']
+                    'name' => ['required' => true, 'minLength' => 3,'maxLength' => 70, 'mixed' => true, 'unique' => $this->table_name],
+                    'price' => ['required' => true, 'minLength' => 2, 'number' => true],
+                    'quantity' => ['required' => true],
+                    'category' => ['required' => true], 'subcategory' => ['required' => true],
+                    'description' => ['required' => true, 'mixed' => true, 'minLength' => 4,'maxLength' => 500,]
                 ];
 
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
 
+                $file = Request::get('file');
+                isset($file->productImage->name)? $filename = $file->productImage->name : $filename = '';
+
+                if(empty($filename)){
+                    $file_error['productImage'] = ['The product image is required'];
+                }else if(!UploadFile::isImage($filename)){
+                    $file_error['productImage'] = ['The image is invalid, please try again.'];
+                }
+
                 if($validate->hasError()){
-                    $errors = $validate->getErrorMessages();
-                    return view('admin/products/categories', [
-                        'categories' => $this->categories, 'links' => $this->links, 'errors' => $errors,
-                        'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links,
+                    $response = $validate->getErrorMessages();
+                    count($file_error) ? $errors = array_merge($response, $file_error) : $errors = $response;
+                    return view('admin/products/create', [
+                        'categories' => $this->categories, 'errors' => $errors
                     ]);
                 }
+
+                $ds = DIRECTORY_SEPARATOR;
+                $temp_file = $file->productImage->tmp_name;
+                $image_path = UploadFile::move($temp_file, "images{$ds}uploads{$ds}products", $filename)->path();
+
                 //process form data
-                Category::create([
+                Product::create([
                     'name' => $request->name,
-                    'slug' => slug($request->name)
+                    'description' => $request->description,
+                    'price' => $request->price,
+                    'category_id' => $request->category,
+                    'sub_category_id' => $request->subcategory,
+                    'image_path' => $image_path,
+                    'quantity' => $request->quantity,
                 ]);
 
-                $total = Category::all()->count();
-                $subTotal = SubCategory::all()->count();
-                list($this->categories, $this->links) = paginate(10, $total, $this->table_name, new Category);
-                list($this->subcategories, $this->subcategories_links) = paginate(10, $subTotal, 'sub_categories', new SubCategory);
-                return view('admin/products/categories', [
-                    'categories' => $this->categories, 'links' => $this->links, 'success' => 'Category Created',
-                    'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links,
+                Request::refresh();
+                return view('admin/products/create', [
+                    'categories' => $this->categories, 'success' => 'Record Created'
                 ]);
             }
             throw new \Exception('Token mismatch');

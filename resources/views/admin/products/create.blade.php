@@ -11,30 +11,30 @@
         </div>
         @include('includes.message')
 
-        <form method="POST" action="/admin/product/create">
+        <form method="post" action="/admin/product/create" enctype="multipart/form-data">
             <div class="small-12 medium-11">
                 <div class="grid-x grid-padding-x">
                     <div class="small-12 medium-6 cell">
                         <label>Product name:
                             <input type="text" name="name" placeholder="Product name"
-                                   value="{{\App\classes\Request::old('post', 'name')}}">
+                                   value="{{ \App\classes\Request::old('post', 'name') }}">
                         </label>
                     </div>
                     <div class="small-12 medium-6 cell">
                         <label>Product price:
                             <input type="text" name="price" placeholder="Product price"
-                                   value="{{\App\classes\Request::old('post', 'price')}}">
+                                   value="{{ \App\classes\Request::old('post', 'price') }}">
                         </label>
                     </div>
 
                     <div class="small-12 medium-6 cell">
                         <label>Product Category:
                             <select name="category" id="product-category">
-                                <option value="{{\App\classes\Request::old('post', 'category')?:""}}">
-                                    {{\App\classes\Request::old('post', 'category')?:"Select Category"}}
+                                <option value="{{ \App\classes\Request::old('post', 'category')?:"" }}">
+                                    {{ \App\classes\Request::old('post', 'category')?:"Select Category" }}
                                 </option>
                                 @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{ $category->id }}"> {{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </label>
@@ -42,8 +42,8 @@
                     <div class="small-12 medium-6 cell">
                         <label>Product Subcategory:
                             <select name="subcategory" id="product-subcategory">
-                                <option value="{{\App\classes\Request::old('post', 'subcategory')?:""}}">
-                                    {{\App\classes\Request::old('post', 'subcategory')?:"Select Subcategory"}}
+                                <option value="{{ \App\classes\Request::old('post', 'subcategory')?:"" }}">
+                                    {{ \App\Classes\Request::old('post', 'subcategory')?:"Select Subcategory" }}
                                 </option>
                             </select>
                         </label>
@@ -52,11 +52,11 @@
                     <div class="small-12 medium-6 cell">
                         <label>Product Quantity:
                             <select name="quantity">
-                                <option value="{{\App\classes\Request::old('post', 'quantity')?:""}}">
-                                    {{\App\classes\Request::old('post', 'quantity')?:"Select quantity"}}
+                                <option value="{{ \App\classes\Request::old('post', 'quantity')?:"" }}">
+                                    {{ \App\classes\Request::old('post', 'quantity')?:"Select quantity" }}
                                 </option>
                                 @for($i = 1; $i <= 50; $i++)
-                                    <option value="{{$i}}">{{$i}}</option>
+                                    <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
                         </label>
@@ -71,13 +71,12 @@
 
                     <div class="small-12 cell">
                         <label>Description:
-                        <textarea name="description" placeholder="Description">{{\App\classes\Request::old('post','description')}}</textarea>
+                            <textarea name="description" placeholder="Description">{{\App\classes\Request::old('post', 'description')}}</textarea>
                         </label>
-                        <input type="hidden" name="token" value="{{\App\classes\CSRFToken::_token()}}">
+                        <input type="hidden" name="token" value="{{ \App\classes\CSRFToken::_token() }}">
                         <button class="button alert" type="reset">Reset</button>
                         <input class="button success float-right" type="submit" value="Save Product">
                     </div>
-
                 </div>
             </div>
         </form>
