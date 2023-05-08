@@ -9,47 +9,52 @@ use App\classes\Session;
 use App\classes\ValidateRequest;
 use App\controllers\BaseController;
 use App\models\Category;
+use App\models\SubCategory;
 
 class ProductCategoryController extends BaseController
 {
     public $table_name = 'categories';
     public $categories;
+    public $subcategories;
+    public $subcategories_links;
     public $links;
 
-    public function __construct(){
-        $total = Category::all() -> count();
+    public function __construct()
+    {
+        $total = Category::all()->count();
+        $subTotal = SubCategory::all()->count();
         $object = new Category;
 
-        list($this->categories, $this->links) = paginate(6,$total, $this->table_name, $object);
+        list($this->categories, $this->links) = paginate(4, $total, $this->table_name, $object);
+        list($this->subcategories, $this->subcategories_links) = paginate(10, $subTotal, 'sub_categories', new SubCategory);
     }
 
-    public function show(){
-
-
-        return view('admin/products/categories',[
-            'categories' => $this->categories,
-            'links' => $this->links
+    public function show()
+    {
+        return view('admin/products/categories', [
+            'categories' => $this->categories, 'links' => $this->links,
+            'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links,
         ]);
     }
 
-    public function store(){
+    public function store()
+    {
         if(Request::has('post')){
             $request = Request::get('post');
 
             if(CSRFToken::verifyCSRFToken($request->token)){
                 $rules = [
-                    'name' => ['required' => true, 'minLength' => 3, 'string' => true, 'unique' => 'categories']
+                    'name' => ['required' => true, 'minLength' => 3, 'mixed' => true, 'unique' => 'categories']
                 ];
 
-                $validate =  new ValidateRequest;
+                $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
 
                 if($validate->hasError()){
                     $errors = $validate->getErrorMessages();
-                    return view('admin/products/categories',[
-                        'categories' => $this->categories,
-                        'links' => $this->links,
-                        'errors' => $errors
+                    return view('admin/products/categories', [
+                        'categories' => $this->categories, 'links' => $this->links, 'errors' => $errors,
+                        'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links,
                     ]);
                 }
                 //process form data
@@ -58,50 +63,44 @@ class ProductCategoryController extends BaseController
                     'slug' => slug($request->name)
                 ]);
 
-                $total = Category::all() -> count();
-                list($this->categories, $this->links) = paginate(6,$total, $this->table_name, new Category);
-                return view('admin/products/categories',[
-                    'categories' => $this->categories,
-                    'links' => $this->links,
-                    'succes' => 'Category Created'
+                $total = Category::all()->count();
+                $subTotal = SubCategory::all()->count();
+                list($this->categories, $this->links) = paginate(4, $total, $this->table_name, new Category);
+                list($this->subcategories, $this->subcategories_links) = paginate(10, $subTotal, 'sub_categories', new SubCategory);
+                return view('admin/products/categories', [
+                    'categories' => $this->categories, 'links' => $this->links, 'success' => 'Category Created',
+                    'subcategories' => $this->subcategories, 'subcategories_links' => $this->subcategories_links,
                 ]);
             }
             throw new \Exception('Token mismatch');
         }
+
         return null;
     }
 
-    public function edit($id){
-
+    public function edit($id)
+    {
         if(Request::has('post')){
-
             $request = Request::get('post');
 
-
-            if(CSRFToken::verifyCSRFToken($request->token,false)){
+            if(CSRFToken::verifyCSRFToken($request->token, false)){
                 $rules = [
-                    'name' => ['required' => true , 'minLength' => 3, 'string' => true, 'unique' => 'categories']
-
+                    'name' => ['required' => true, 'minLength' => 3, 'string' => true, 'unique' => 'categories']
                 ];
-
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
-
-
                 if($validate->hasError()){
-
-                    $errors =$validate->getErrorMessages();
+                    $errors = $validate->getErrorMessages();
                     header('HTTP/1.1 422 Unprocessable Entity', true, 422);
                     echo json_encode($errors);
                     exit;
-
                 }
+
                 Category::where('id', $id)->update(['name' => $request->name]);
-                echo json_encode(['success' =>' Record Updated Successfully']);
+                echo json_encode(['success' => 'Record Update Successfully']);
                 exit;
             }
             throw new \Exception('Token mismatch');
-
         }
 
         return null;
@@ -109,21 +108,17 @@ class ProductCategoryController extends BaseController
 
     public function delete($id)
     {
-        if (Request::has('post')) {
+        if(Request::has('post')){
             $request = Request::get('post');
 
-            if (CSRFToken::verifyCSRFToken($request->token)) {
+            if(CSRFToken::verifyCSRFToken($request->token)){
                 Category::destroy($id);
-
                 Session::add('success', 'Category Deleted');
-
                 Redirect::to('/admin/product/categories');
-
-
-            } else {
-                throw new \Exception('Token mismatch');
             }
+            throw new \Exception('Token mismatch');
         }
-    }
 
+        return null;
+    }
 }
