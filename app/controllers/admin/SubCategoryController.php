@@ -1,14 +1,14 @@
 <?php
-namespace App\Controllers\Admin;
+namespace App\controllers\admin;
 
-use App\Classes\CSRFToken;
-use App\Classes\Redirect;
-use App\Classes\Request;
-use App\Classes\Session;
-use App\Classes\ValidateRequest;
-use App\Controllers\BaseController;
-use App\Models\Category;
-use App\Models\SubCategory;
+use App\classes\CSRFToken;
+use App\classes\Redirect;
+use App\classes\Request;
+use App\classes\Session;
+use App\classes\ValidateRequest;
+use App\controllers\BaseController;
+use App\models\Category;
+use App\models\SubCategory;
 
 class SubCategoryController extends BaseController
 {
