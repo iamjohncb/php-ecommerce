@@ -1,6 +1,6 @@
 @extends('admin.layout.base')
 @section('title', 'Create Product')
-@section('data-page-id', 'adminProducts')
+@section('data-page-id', 'adminProduct')
 
 @section('content')
     <div class="add-product">
@@ -40,8 +40,11 @@
                     </div>
                     <div class="small-12 medium-6 cell">
                         <label>Product Subcategory:
-                            <input type="text" name="price" placeholder="Product price"
-                                   value="{{\App\classes\Request::old('post', 'price')}}">
+                            <select name="subcategory" id="product-subcategory">
+                                <option value="{{\App\classes\Request::old('post', 'subcategory')?:""}}">
+                                    {{\App\classes\Request::old('post', 'subcategory')?:"Select Subcategory"}}
+                                </option>
+                            </select>
                         </label>
                     </div>
                 </div>
