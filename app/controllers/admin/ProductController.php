@@ -29,7 +29,8 @@ class ProductController extends BaseController
         list($this->products, $this->links) = paginate(10, $total, $this->table_name, new Product);
     }
 
-    public function show(){
+    public function show()
+    {
         $products = $this->products;
         $links = $this->links;
         return view('admin/products/inventory', compact('products', 'links'));
@@ -43,32 +44,32 @@ class ProductController extends BaseController
 
     public function store()
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
             $file_error = [];
 
-            if(CSRFToken::verifyCSRFToken($request->token)){
+            if (CSRFToken::verifyCSRFToken($request->token)) {
                 $rules = [
-                    'name' => ['required' => true, 'minLength' => 3,'maxLength' => 70, 'mixed' => true, 'unique' => $this->table_name],
+                    'name' => ['required' => true, 'minLength' => 3, 'maxLength' => 70, 'mixed' => true, 'unique' => $this->table_name],
                     'price' => ['required' => true, 'minLength' => 2, 'number' => true],
                     'quantity' => ['required' => true],
                     'category' => ['required' => true], 'subcategory' => ['required' => true],
-                    'description' => ['required' => true, 'mixed' => true, 'minLength' => 4,'maxLength' => 500,]
+                    'description' => ['required' => true, 'mixed' => true, 'minLength' => 4, 'maxLength' => 500,]
                 ];
 
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
 
                 $file = Request::get('file');
-                isset($file->productImage->name)? $filename = $file->productImage->name : $filename = '';
+                isset($file->productImage->name) ? $filename = $file->productImage->name : $filename = '';
 
-                if(empty($filename)){
+                if (empty($filename)) {
                     $file_error['productImage'] = ['The product image is required'];
-                }else if(!UploadFile::isImage($filename)){
+                } else if (!UploadFile::isImage($filename)) {
                     $file_error['productImage'] = ['The image is invalid, please try again.'];
                 }
 
-                if($validate->hasError()){
+                if ($validate->hasError()) {
                     $response = $validate->getErrorMessages();
                     count($file_error) ? $errors = array_merge($response, $file_error) : $errors = $response;
                     return view('admin/products/create', [
@@ -104,16 +105,16 @@ class ProductController extends BaseController
 
     public function edit($id)
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
 
-            if(CSRFToken::verifyCSRFToken($request->token, false)){
+            if (CSRFToken::verifyCSRFToken($request->token, false)) {
                 $rules = [
                     'name' => ['required' => true, 'minLength' => 3, 'string' => true, 'unique' => 'categories']
                 ];
                 $validate = new ValidateRequest;
                 $validate->abide($_POST, $rules);
-                if($validate->hasError()){
+                if ($validate->hasError()) {
                     $errors = $validate->getErrorMessages();
                     header('HTTP/1.1 422 Unprocessable Entity', true, 422);
                     echo json_encode($errors);
@@ -132,15 +133,15 @@ class ProductController extends BaseController
 
     public function delete($id)
     {
-        if(Request::has('post')){
+        if (Request::has('post')) {
             $request = Request::get('post');
 
-            if(CSRFToken::verifyCSRFToken($request->token)){
+            if (CSRFToken::verifyCSRFToken($request->token)) {
                 Category::destroy($id);
 
                 $subcategories = SubCategory::where('category_id', $id)->get();
-                if(count($subcategories)){
-                    foreach ($subcategories as $subcategory){
+                if (count($subcategories)) {
+                    foreach ($subcategories as $subcategory) {
                         $subcategory->delete();
                     }
                 }

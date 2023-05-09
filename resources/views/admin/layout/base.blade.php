@@ -13,7 +13,7 @@
 </head>
 <body data-page-id="@yield('data-page-id')">
 
-@include('includes.admin-slidebar')
+@include('includes.admin-sidebar')
 
 <div class="off-canvas-content admin-title-bar" data-off-canvas-content>
     <!-- Your page content lives here -->
