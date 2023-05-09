@@ -42210,6 +42210,7 @@ module.exports = function(Chart) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($, jQuery) {(function () {
+
     'use strict';
 
     ACMESTORE.admin.changeEvent = function () {
