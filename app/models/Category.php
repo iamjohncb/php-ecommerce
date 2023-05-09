@@ -9,17 +9,25 @@ class Category extends Model
 {
     use SoftDeletes;
 
-    public $timestamp = true;
-    protected $fillable = ['name','slug'];
+    public $timestamps = true;
+    protected $fillable = ['name', 'slug'];
     protected $dates = ['deleted_at'];
 
-    public function transform($data){
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 
+    public function subCategories(){
+        return $this->hasMany(SubCategory::class);
+    }
+
+    public function transform($data)
+    {
         $categories = [];
-
         foreach ($data as $item){
             $added = new Carbon($item->created_at);
-            array_push($categories,[
+            array_push($categories, [
                 'id' => $item->id,
                 'name' => $item->name,
                 'slug' => $item->slug,
@@ -28,7 +36,5 @@ class Category extends Model
         }
 
         return $categories;
-
     }
-
 }
