@@ -1,13 +1,13 @@
 <?php $categories = \App\models\Category::with('subCategories')->get(); ?>
 <header class="navigation">
-    <div class="title-bar" data-responsive-toggle="acme-menu" data-hide-for="medium">
+    <div class="top-bar" data-responsive-toggle="acme-menu" data-hide-for="medium" >
         <button class="menu-icon" type="button" data-toggle="acme-menu"></button>
         <div class="title-bar-title"><a href="/">ACME Store</a> </div>
     </div>
 
     <div class="top-bar" id="acme-menu">
         <div class="top-bar-left">
-            <ul class="dropdown menu fixx" data-dropdown-menu>
+            <ul class="dropdown menu fixx" data-dropdown-menu data-click-open="true" data-disable-hover="true" data-close-on-click-inside="false">
                 <li class="menu-text logo" onclick="location.href='/'"></li>
                 <li><a href="/products">Acme Products</a></li>
                 @if(count($categories))

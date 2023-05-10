@@ -1,4 +1,3 @@
-
 window.$ = window.JQuery = require('jquery');
 window.axios = require('axios');
 window.Vue = require('vue');
@@ -8,6 +7,7 @@ require('foundation-sites/dist/js/foundation.min');
 //other dependencies
 require('slick-carousel/slick/slick.min');
 require('chart.js/dist/Chart.bundle');
+require('jquery/dist/jquery.min');
 
 //custom js files
 require('../../assets/js/acme');
@@ -20,5 +20,5 @@ require('../../assets/js/admin/update');
 //require('../../assets/js/pages/home_products');
 //require('../../assets/js/pages/lib');
 //require('../../assets/js/pages/product_details');
-//require('../../assets/js/pages/slider');
+require('../../assets/js/pages/slider');
 require('../../assets/js/init');

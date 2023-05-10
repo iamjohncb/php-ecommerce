@@ -8550,7 +8550,7 @@ hr {
 .navigation .top-bar ul.menu.vertical.sub {
   padding-right: 0.5rem;
   padding-left: 0.5rem;
-  margin-top: 0.7rem;
+  margin-top: 0.6rem;
 }
 
 @media screen and (max-width: 39.99875em) {
@@ -8577,6 +8577,26 @@ hr {
   .navigation .top-bar .top-bar-left .fixx {
     display: block;
   }
+}
+
+.home {
+  padding-top: 3rem;
+}
+
+@media screen and (max-width: 39.99875em) {
+  .home {
+    padding-top: 2.3rem;
+  }
+}
+
+.home .hero {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.home .hero .hero-slider img {
+  width: 100% !important;
 }
 
 .slide-in-down.mui-enter {
