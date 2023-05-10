@@ -8580,12 +8580,12 @@ hr {
 }
 
 .home {
-  padding-top: 3rem;
+  padding-top: 4.65rem;
 }
 
 @media screen and (max-width: 39.99875em) {
   .home {
-    padding-top: 2.3rem;
+    padding-top: 3rem;
   }
 }
 
@@ -8597,6 +8597,62 @@ hr {
 
 .home .hero .hero-slider img {
   width: 100% !important;
+}
+
+.home .display-products {
+  padding: 3rem;
+}
+
+@media screen and (max-width: 39.99875em) {
+  .home .display-products {
+    text-align: center;
+    padding: 0.7rem;
+  }
+}
+
+.home .display-products a {
+  color: #0a0a0a;
+}
+
+.home .display-products a:focus {
+  outline-style: none;
+}
+
+.home .display-products .card {
+  padding: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.home .display-products .card .card-section {
+  margin-bottom: 0.7rem;
+}
+
+.home .display-products .card .card-section img {
+  border-radius: 0.5rem;
+  width: 200px !important;
+  height: 250px !important;
+}
+
+.home .display-products .card .card-section .button {
+  border-radius: 0.2rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.home .display-products .card .card-section .button.more {
+  color: #00d6b2;
+  background-color: #ffffff;
+  border: 1px solid #00d6b2;
+}
+
+.home .display-products .card .card-section .button.cart {
+  color: #ffffff;
+  background-color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+.home .display-products .card .card-section .button.cart:hover {
+  background-color: #e30000;
 }
 
 .slide-in-down.mui-enter {
