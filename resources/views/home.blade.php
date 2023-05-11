@@ -12,9 +12,9 @@
             </div>
         </section>
         <section class="display-products" data-token="{{ $token }}" id="root">
-            <h2 style="padding-left: 10px">Featured Products</h2>
-            <div class="row medium-up-4 grid-x grid-padding-x">
-                <div class="cell small-12" v-for="feature in featured">
+            <h2>Featured Products</h2>
+            <div class="medium-up-4 large-up-4 grid-x grid-padding-x">
+                <div class="cell small-12" v-cloak v-for="feature in featured">
                     <a :href="'/product/' + feature.id">
                         <div class="card"  data-equalizer-watch>
                             <div class="card-section">
@@ -35,9 +35,9 @@
                     </a>
                 </div>
             </div>
-            <h2 style="padding-left: 10px">Products Picks</h2>
-            <div class="row medium-up-4 grid-x grid-padding-x">
-                <div class="cell small-12" v-for="product in products">
+            <h2>Products Picks</h2>
+            <div class="medium-up-4 large-up-4 grid-x grid-padding-x">
+                <div class="cell small-12" v-cloak v-for="product in products">
                     <a :href="'/product/' + product.id">
                         <div class="card"  data-equalizer-watch>
                             <div class="card-section">

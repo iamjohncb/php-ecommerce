@@ -9,7 +9,34 @@ html,body{
   line-height: 1.5;
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Average', serif;
+}
+
+h2{
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1.6rem;
+  padding: 0 1rem 1rem 1rem;
+  font-weight: 500;
+
+  @include breakpoint(medium only){
+    font-size: 1.8rem;
+  }
+  @include breakpoint(large){
+    font-size: 2rem;
+  }
+}
+
+p{
+  font-family: 'Average', serif;
+  font-size: 1.2rem;
+  @include breakpoint(medium only){
+    font-size: 1rem;
+  }
+}
+
+[v-cloak] .v-cloak--hidden{
+  display: none;
 }
 
 .site_wrapper{
@@ -19,32 +46,29 @@ html,body{
 
 table{
   border-collapse: collapse;
+  cursor: pointer;
 
   th, tr, td{
     font-size: 0.8rem;
-    padding: 0.3rem;
+    padding: 0;
     border: 1px solid #c0c0c0;
   }
-
-}
-
-h2{
-  font-size: 1.5rem;
-  margin-top: 0.8rem;
-  margin-bottom: 0;
-  font-weight: 500;
 }
 
 hr{
   margin: 0 0 1rem 0;
 }
-
 .reveal{
   border:0;
   border-radius: 0.5rem;
 
   &:focus{
     outline-style: none;
+  }
+
+  h2{
+    font-size: 1.5rem;
+    font-weight: 500;
   }
 }
 .notification{
