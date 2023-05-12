@@ -8736,6 +8736,20 @@ table td {
   background-color: #e30000;
 }
 
+.auth {
+  padding: 6rem;
+}
+
+@media screen and (max-width: 39.99875em) {
+  .auth {
+    padding: 4rem 1rem;
+  }
+}
+
+.auth h2 {
+  margin-bottom: 0.5rem !important;
+}
+
 .shopping_cart {
   padding: 6rem;
 }
