@@ -25,11 +25,13 @@
                     }));
                 },
                 stringLimit: function (string, value) {
-                    if(string.length > value){
-                        return string.substring(0, value) + '...';
-                    }else{
-                        return string;
-                    }
+                    return ACMESTORE.module.truncateString(string, value);
+                },
+                addToCart: function (id) {
+                    ACMESTORE.module.addItemToCart(id, function (message) {
+                        $(".notify").css("display", 'block').delay(4000).slideUp(300)
+                            .html(message);
+                    });
                 },
                 loadMoreProducts: function () {
                     var token = $('.display-products').data('token');

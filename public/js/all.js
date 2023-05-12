@@ -11334,7 +11334,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(50);
 
 
 /***/ }),
@@ -11359,12 +11359,12 @@ __webpack_require__(40);
 __webpack_require__(41);
 __webpack_require__(42);
 __webpack_require__(43);
-//require('../../assets/js/pages/cart');
 __webpack_require__(44);
-//require('../../assets/js/pages/lib');
 __webpack_require__(45);
 __webpack_require__(46);
 __webpack_require__(47);
+__webpack_require__(48);
+__webpack_require__(49);
 
 /***/ }),
 /* 12 */
@@ -42341,6 +42341,69 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */(function($) {(function () {
     'use strict';
 
+    ACMESTORE.product.cart = function () {
+
+        var app = new Vue({
+            el: '#shopping_cart',
+            data: {
+                items: [],
+                cartTotal: [],
+                loading: false,
+                fail: false,
+                message: ''
+            },
+            methods: {
+                displayItems: function displayItems(time) {
+                    this.loading = true;
+                    setTimeout(function () {
+                        axios.get('/cart/items').then(function (response) {
+                            if (response.data.fail) {
+                                app.fail = true;
+                                app.message = response.data.fail;
+                                app.loading = false;
+                            } else {
+                                app.items = response.data.items;
+                                app.cartTotal = response.data.cartTotal;
+                                app.loading = false;
+                            }
+                        });
+                    }, time);
+                },
+                updateQuantity: function updateQuantity(product_id, operator) {
+                    var postData = $.param({ product_id: product_id, operator: operator });
+                    axios.post('/cart/update-qty', postData).then(function (response) {
+                        app.displayItems(200);
+                    });
+                },
+                removeItem: function removeItem(index) {
+                    var postData = $.param({ item_index: index });
+                    axios.post('/cart/remove-item', postData).then(function (response) {
+                        $(".notify").css("display", 'block').delay(4000).slideUp(300).html(response.data.success);
+                        app.displayItems(200);
+                    });
+                },
+                emptyCart: function emptyCart() {
+                    axios.post('/cart/empty').then(function (response) {
+                        $(".notify").css("display", 'block').delay(4000).slideUp(300).html(response.data.success);
+                        app.displayItems(10);
+                    });
+                }
+            },
+            created: function created() {
+                this.displayItems(2000);
+            }
+        });
+    };
+})();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {(function () {
+    'use strict';
+
     ACMESTORE.homeslider.homePageProducts = function () {
         var app = new Vue({
             el: '#root',
@@ -42361,11 +42424,12 @@ module.exports = __webpack_amd_options__;
                     }));
                 },
                 stringLimit: function stringLimit(string, value) {
-                    if (string.length > value) {
-                        return string.substring(0, value) + '...';
-                    } else {
-                        return string;
-                    }
+                    return ACMESTORE.module.truncateString(string, value);
+                },
+                addToCart: function addToCart(id) {
+                    ACMESTORE.module.addItemToCart(id, function (message) {
+                        $(".notify").css("display", 'block').delay(4000).slideUp(300).html(message);
+                    });
                 },
                 loadMoreProducts: function loadMoreProducts() {
                     var token = $('.display-products').data('token');
@@ -42394,7 +42458,38 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {(function () {
+    'use strict';
+
+    ACMESTORE.module = {
+        truncateString: function limit(string, value) {
+            if (string.length > value) {
+                return string.substring(0, value) + '...';
+            } else {
+                return string;
+            }
+        },
+        addItemToCart: function addItemToCart(id, callback) {
+            var token = $('.display-products').data('token');
+
+            if (token == null || !token) {
+                token = $('.product').data('token');
+            }
+
+            var postData = $.param({ product_id: id, token: token });
+            axios.post('/cart', postData).then(function (response) {
+                callback(response.data.success);
+            });
+        }
+    };
+})();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42441,7 +42536,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42462,7 +42557,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42481,8 +42576,12 @@ module.exports = __webpack_amd_options__;
             case 'product':
                 ACMESTORE.product.details();
                 break;
+            case 'cart':
+                ACMESTORE.product.cart();
+                break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
+                ACMESTORE.admin.delete();
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
@@ -42497,7 +42596,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

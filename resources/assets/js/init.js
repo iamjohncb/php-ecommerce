@@ -1,8 +1,9 @@
-(function (){
+(function () {
     'use strict';
+
     $(document).foundation();
 
-    $(document).ready(function (){
+    $(document).ready(function () {
 
         //SWITCH PAGES
         switch ($("body").data("page-id")){
@@ -13,8 +14,12 @@
             case 'product':
                 ACMESTORE.product.details();
                 break;
+            case 'cart':
+                ACMESTORE.product.cart();
+                break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
+                ACMESTORE.admin.delete();
                 break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
@@ -22,9 +27,8 @@
                 ACMESTORE.admin.create();
                 break;
             default:
-                //do nothing
+            //do nothing
         }
-
     })
 
 })();

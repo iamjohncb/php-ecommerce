@@ -9,7 +9,7 @@
 @import "pages/home";
 @import "pages/product";
 //@import "pages/auth";
-//@import "pages/cart";
+@import "pages/cart";
 
 @import "~motion-ui/src/motion-ui";
 @include motion-ui-transitions
