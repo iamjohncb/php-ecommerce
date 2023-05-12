@@ -27,6 +27,18 @@ h2{
   }
 }
 
+.notify{
+  display: none;
+  position: fixed;
+  padding: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  width: 300px;
+  border-radius: 0.5rem;
+  background-color: #00AA00;
+  color: #ffffff;
+}
+
 p{
   font-family: 'Average', serif;
   font-size: 1.2rem;
@@ -55,9 +67,20 @@ table{
   }
 }
 
-hr{
-  margin: 0 0 1rem 0;
+.admin_shared{
+  hr{
+    margin: 0 0 1rem 0;
+  }
+  h2{
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    padding-left: 0;
+    font-weight: 500;
+  }
 }
+
 .reveal{
   border:0;
   border-radius: 0.5rem;

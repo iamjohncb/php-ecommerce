@@ -19,6 +19,6 @@ require('../../assets/js/admin/update');
 //require('../../assets/js/pages/cart');
 require('../../assets/js/pages/home_products');
 //require('../../assets/js/pages/lib');
-//require('../../assets/js/pages/product_details');
+require('../../assets/js/pages/product_details');
 require('../../assets/js/pages/slider');
 require('../../assets/js/init');

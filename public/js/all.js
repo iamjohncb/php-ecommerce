@@ -11334,7 +11334,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(47);
+module.exports = __webpack_require__(48);
 
 
 /***/ }),
@@ -11362,9 +11362,9 @@ __webpack_require__(43);
 //require('../../assets/js/pages/cart');
 __webpack_require__(44);
 //require('../../assets/js/pages/lib');
-//require('../../assets/js/pages/product_details');
 __webpack_require__(45);
 __webpack_require__(46);
+__webpack_require__(47);
 
 /***/ }),
 /* 12 */
@@ -42160,7 +42160,8 @@ module.exports = __webpack_amd_options__;
   window.ACMESTORE = {
     global: {},
     admin: {},
-    homeslider: {}
+    homeslider: {},
+    product: {}
   };
 })();
 
@@ -42399,6 +42400,53 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */(function($) {(function () {
     'use strict';
 
+    ACMESTORE.product.details = function () {
+        var app = new Vue({
+            el: '#product',
+            data: {
+                product: [],
+                category: [],
+                subCategory: [],
+                similarProducts: [],
+                productId: $('#product').data('id'),
+                loading: false
+            },
+            methods: {
+                getProductDetails: function getProductDetails() {
+                    this.loading = true;
+                    setTimeout(function () {
+                        axios.get('/product-details/' + app.productId).then(function (response) {
+                            app.product = response.data.product;
+                            app.category = response.data.category;
+                            app.subCategory = response.data.subCategory;
+                            app.similarProducts = response.data.similarProducts;
+                            app.loading = false;
+                        });
+                    }, 1000);
+                },
+                stringLimit: function stringLimit(string, value) {
+                    if (string.length > value) {
+                        return string.substring(0, value) + '...';
+                    } else {
+                        return string;
+                    }
+                }
+            },
+            created: function created() {
+                this.getProductDetails();
+            }
+        });
+    };
+})();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {(function () {
+    'use strict';
+
     ACMESTORE.homeslider.initCarousel = function () {
         $('.hero-slider').slick({
             slidesToShow: 1,
@@ -42414,7 +42462,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42429,6 +42477,9 @@ module.exports = __webpack_amd_options__;
             case 'home':
                 ACMESTORE.homeslider.initCarousel();
                 ACMESTORE.homeslider.homePageProducts();
+                break;
+            case 'product':
+                ACMESTORE.product.details();
                 break;
             case 'adminProduct':
                 ACMESTORE.admin.changeEvent();
@@ -42446,7 +42497,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
