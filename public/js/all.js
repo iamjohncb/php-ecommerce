@@ -42350,7 +42350,8 @@ module.exports = __webpack_amd_options__;
                 cartTotal: [],
                 loading: false,
                 fail: false,
-                message: ''
+                message: '',
+                authenticated: false
             },
             methods: {
                 displayItems: function displayItems(time) {
@@ -42365,6 +42366,7 @@ module.exports = __webpack_amd_options__;
                                 app.items = response.data.items;
                                 app.cartTotal = response.data.cartTotal;
                                 app.loading = false;
+                                app.authenticated = response.data.authenticated;
                             }
                         });
                     }, time);
