@@ -6,6 +6,8 @@ use App\classes\Cart;
 use App\classes\CSRFToken;
 use App\classes\Request;
 use App\classes\Session;
+use App\models\Order;
+use App\models\Payment;
 use App\models\Product;
 use Stripe\Charge;
 use Stripe\Customer;
@@ -147,6 +149,8 @@ class CartController extends BaseController
 
     public function checkout(){
         if(Request::get('post')){
+
+            $result['product'] = array();
             $request = Request::get('post');
             $token = $request->stripeToken;
             $email = $request->stripeEmail;
@@ -157,17 +161,62 @@ class CartController extends BaseController
                     'source' => $token
                 ]);
 
-                $amount = Session::get('cartTotal');
+                $amount = convertMoneyToCents(Session::get('cartTotal'));
                 $charge = Charge::create([
                     'customer' => $customer->id,
                     'amount' => $amount,
                     'description' => user()->fullname.'-cart purchase',
                     'currency' => 'usd'
                 ]);
+                $order_id = strtoupper(uniqid());
+
+                foreach ($_SESSION['user_cart'] as $cart_items) {
+                    $productId = $cart_items['product_id'];
+                    $quantity = $cart_items['quantity'];
+                    $item = Product::where('id', $productId)->first();
+
+                    if (!$item) {continue;}
+
+                    $totalPrice = $item->price * $quantity;
+                    $totalPrice = number_format($totalPrice, 2);
+
+                    //store info
+                    Order::create([
+                        'user_id' => user()->id,
+                        'product_id' => $productId,
+                        'unit_price' => $item->price,
+                        'status' => 'Pending',
+                        'quantity' => $quantity,
+                        'total' => $totalPrice,
+                        'order_no' => $order_id
+                    ]);
+
+                    $item->quantity = $item->quantity - $quantity;
+                    $item->save();
+
+                    array_push($result['product'], [
+                        'name' => $item->name,
+                        'price' => $item->price,
+                        'total' => $totalPrice,
+                        'quantity' => $quantity
+                    ]);
+                }
+
+                Payment::create([
+                    'user_id' => user()->id,
+                    'amount' => $charge->amount,
+                    'status' => $charge->status,
+                    'order_no' => $order_id
+                ]);
 
             }catch (\Exception $ex){
                 echo $ex->getMessage();
             }
+            
+            Cart::clear();
+            echo json_encode([
+                'success' => 'Thank you, we have received your payment and now processing your order.'
+            ]);
         }
     }
 
