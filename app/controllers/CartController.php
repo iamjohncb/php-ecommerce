@@ -4,6 +4,7 @@ namespace App\controllers;
 
 use App\classes\Cart;
 use App\classes\CSRFToken;
+use App\classes\Mail;
 use App\classes\Request;
 use App\classes\Session;
 use App\models\Order;
@@ -151,6 +152,9 @@ class CartController extends BaseController
         if(Request::get('post')){
 
             $result['product'] = array();
+            $result['order_no'] = array();
+            $result['total'] = array();
+
             $request = Request::get('post');
             $token = $request->stripeToken;
             $email = $request->stripeEmail;
@@ -208,6 +212,18 @@ class CartController extends BaseController
                     'status' => $charge->status,
                     'order_no' => $order_id
                 ]);
+
+                $result['order_no'] = $order_id;
+                $result['total'] = Session::get('cartTotal');
+
+                $data = [
+                    'to' => user()->email,
+                    'subject' => 'Order Confirmation',
+                    'view' => 'purchase',
+                    'name' => user()->fullname,
+                    'body' => $result
+                ];
+                (new Mail())->send($data);
 
             }catch (\Exception $ex){
                 echo $ex->getMessage();
