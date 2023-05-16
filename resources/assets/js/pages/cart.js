@@ -3,6 +3,22 @@
 
     ACMESTORE.product.cart = function () {
 
+        var Stripe = StripeCheckout.configure({
+            key: $('#properties').data('stripe-key'),
+            locale: "auto",
+            image: "https://s3.amazonaws.com/stripe-uploads/acct_1AFi4XD6RN5QLHpHmerchant-icon-1496449193909-logo.PNG",
+            token: function (token) {
+                var data = $.param({stripeToken: token.id, stripeEmail:token.email});
+                axios.post('/cart/payment', data).then(function (response) {
+                    $(".notify").css("display", 'block').delay(4000).slideUp(300)
+                        .html(response.data.success);
+                    app.displayItems(200);
+                }).catch(function (error) {
+                    console.log(error);
+                })
+            }
+        });
+
         var app = new Vue({
             el: '#shopping_cart',
             data: {
@@ -11,7 +27,8 @@
                 loading: false,
                 fail: false,
                 message: '',
-                authenticated: false
+                authenticated: false,
+                amountInCents: 0
             },
             methods: {
                 displayItems: function (time) {
@@ -27,6 +44,7 @@
                                 app.cartTotal = response.data.cartTotal;
                                 app.loading = false;
                                 app.authenticated = response.data.authenticated;
+                                app.amountInCents = response.data.amountInCents;
                             }
                         });
                     }, time);
@@ -50,6 +68,16 @@
                         $(".notify").css("display", 'block').delay(4000).slideUp(300)
                             .html(response.data.success);
                         app.displayItems(10);
+                    });
+                },
+                checkout: function (){
+                    Stripe.open({
+                        name: "ACME Store, Inc.",
+                        description: "Shopping Cart Items",
+                        email: $('#properties').data('customer-email'),
+                        amount: app.amountInCents,
+                        zipCode: true,
+                        currency: 'USD'
                     });
                 }
             },

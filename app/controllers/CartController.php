@@ -70,7 +70,8 @@ class CartController extends BaseController
             echo json_encode(
                 [
                     'items' => $result, 'cartTotal' => $cartTotal,
-                    'authenticated' => isAuthenticated()
+                    'authenticated' => isAuthenticated(),
+                    'amountInCents' => convertMoneyToCents($cartTotal)
                 ]
             );
             exit;
@@ -138,6 +139,13 @@ class CartController extends BaseController
         Cart::clear();
         echo json_encode(['success' => 'Shopping Cart Emptied!']);
         exit;
+    }
+
+    public function checkout(){
+        if(Request::get('post')){
+            $request = Request::get('post');
+            echo json_encode(['success', $request]);
+        }
     }
 
 }
