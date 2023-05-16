@@ -7,6 +7,8 @@ use App\classes\CSRFToken;
 use App\classes\Request;
 use App\classes\Session;
 use App\models\Product;
+use Stripe\Charge;
+use Stripe\Customer;
 
 
 class CartController extends BaseController
@@ -67,6 +69,8 @@ class CartController extends BaseController
             }
 
             $cartTotal = number_format($cartTotal, 2);
+            Session::add('cartTotal', $cartTotal);
+
             echo json_encode(
                 [
                     'items' => $result, 'cartTotal' => $cartTotal,
@@ -144,7 +148,26 @@ class CartController extends BaseController
     public function checkout(){
         if(Request::get('post')){
             $request = Request::get('post');
-            echo json_encode(['success', $request]);
+            $token = $request->stripeToken;
+            $email = $request->stripeEmail;
+            try{
+
+                $customer = Customer::create([
+                    'email' => $email,
+                    'source' => $token
+                ]);
+
+                $amount = Session::get('cartTotal');
+                $charge = Charge::create([
+                    'customer' => $customer->id,
+                    'amount' => $amount,
+                    'description' => user()->fullname.'-cart purchase',
+                    'currency' => 'usd'
+                ]);
+
+            }catch (\Exception $ex){
+                echo $ex->getMessage();
+            }
         }
     }
 
