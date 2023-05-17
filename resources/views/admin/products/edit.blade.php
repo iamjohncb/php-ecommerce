@@ -3,7 +3,7 @@
 @section('data-page-id', 'adminProduct')
 
 @section('content')
-    <div class="add-product">
+    <div class="add-product admin_shared">
         <div class="grid-x grid-padding-x">
             <div class="cell medium-11">
                 <h2>Edit {{ $product->name }}</h2> <hr />

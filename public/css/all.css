@@ -8634,6 +8634,100 @@ table td {
   }
 }
 
+.dashboard {
+  padding: 2rem 1rem;
+}
+
+@media screen and (max-width: 39.99875em) {
+  .dashboard .summary {
+    padding-bottom: 1rem;
+  }
+}
+
+.dashboard .summary .card {
+  width: 95%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.99875em) {
+  .dashboard .summary .card {
+    width: 98%;
+  }
+}
+
+.dashboard .summary .card .card-section .fa {
+  font-size: 2.5rem;
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.99875em) {
+  .dashboard .summary .card .card-section .fa {
+    font-size: 0.9rem;
+  }
+}
+
+.dashboard .summary .card .card-section .fa.fa-shopping-cart {
+  color: #ff4500;
+}
+
+.dashboard .summary .card .card-section .fa.fa-money {
+  color: #00AA00;
+}
+
+.dashboard .summary .card .card-section .fa.fa-thermometer-empty {
+  color: #da8301;
+}
+
+.dashboard .summary .card .card-section .fa.fa-users {
+  color: #00BFFF;
+}
+
+.dashboard .summary .card .card-section p,
+.dashboard .summary .card .card-section h4 {
+  margin: 0;
+  padding: 0;
+  text-align: right;
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.99875em) {
+  .dashboard .summary .card .card-section p,
+  .dashboard .summary .card .card-section h4 {
+    font-size: 0.8rem;
+  }
+}
+
+.dashboard .summary .card .card-divider {
+  border-top: 1px solid #6c9a9d;
+  background-color: #ffffff;
+}
+
+.dashboard .summary .card .card-divider a {
+  color: #337ab7;
+}
+
+.dashboard .graph {
+  margin: 2rem 0.5rem;
+}
+
+@media screen and (max-width: 39.99875em) {
+  .dashboard .graph {
+    margin-top: 1rem;
+  }
+}
+
+.dashboard .graph .card {
+  width: 98%;
+}
+
+.dashboard .graph canvas {
+  height: 300px !important;
+}
+
+@media screen and (max-width: 39.99875em) {
+  .dashboard .graph canvas {
+    height: auto !important;
+  }
+}
+
 .home {
   padding-top: 3.5rem;
 }
