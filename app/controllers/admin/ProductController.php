@@ -5,6 +5,7 @@ namespace App\controllers\admin;
 use App\classes\CSRFToken;
 use App\classes\Redirect;
 use App\classes\Request;
+use App\classes\Role;
 use App\classes\Session;
 use App\classes\UploadFile;
 use App\classes\ValidateRequest;
@@ -24,6 +25,10 @@ class ProductController extends BaseController
 
     public function __construct()
     {
+        if(!Role::middleware('admin')){
+            Redirect::to('/login');
+        }
+
         $this->categories = Category::all();
         $total = Product::all()->count();
         list($this->products, $this->links) = paginate(10, $total, $this->table_name, new Product);
