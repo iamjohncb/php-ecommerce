@@ -11334,7 +11334,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(50);
+module.exports = __webpack_require__(51);
 
 
 /***/ }),
@@ -11355,7 +11355,6 @@ __webpack_require__(37);
 //custom js files
 __webpack_require__(39);
 __webpack_require__(40);
-//require('../../assets/js/admin/dashboard');
 __webpack_require__(41);
 __webpack_require__(42);
 __webpack_require__(43);
@@ -11365,6 +11364,7 @@ __webpack_require__(46);
 __webpack_require__(47);
 __webpack_require__(48);
 __webpack_require__(49);
+__webpack_require__(50);
 
 /***/ }),
 /* 12 */
@@ -42155,14 +42155,15 @@ module.exports = __webpack_amd_options__;
 /***/ (function(module, exports) {
 
 (function () {
-  'use strict';
+    'use strict';
 
-  window.ACMESTORE = {
-    global: {},
-    admin: {},
-    homeslider: {},
-    product: {}
-  };
+    window.ACMESTORE = {
+        global: {},
+        admin: {},
+        homeslider: {},
+        product: {},
+        products: {}
+    };
 })();
 
 /***/ }),
@@ -42207,6 +42208,64 @@ module.exports = __webpack_amd_options__;
 
 /***/ }),
 /* 41 */
+/***/ (function(module, exports) {
+
+(function () {
+    'use strict';
+
+    ACMESTORE.admin.dashboard = function () {
+        charts();
+        setInterval(charts, 10000);
+    };
+
+    function charts() {
+        var revenue = document.getElementById('revenue');
+        var order = document.getElementById('order');
+
+        //labels
+        var orderLabels = [];var revenueLabels = [];
+        var orderData = [];var revenueData = [];
+
+        axios.get('/admin/charts').then(function (response) {
+            response.data.orders.forEach(function (monthly) {
+                orderData.push(monthly.count);
+                orderLabels.push(monthly.new_date);
+            });
+
+            response.data.revenues.forEach(function (monthly) {
+                revenueData.push(monthly.amount);
+                revenueLabels.push(monthly.new_date);
+            });
+
+            new Chart(revenue, {
+                type: 'bar',
+                data: {
+                    labels: revenueLabels,
+                    datasets: [{
+                        label: '# Revenue',
+                        data: revenueData,
+                        backgroundColor: ['#0d47a1', "#FF6384", "#4BC0C0", "#FFCE56", "#1b5e20", "#36A2EB", '#311b92', '#dd2c00', '#263238', '#81c784', '#b9f6ca', '#f57c00']
+                    }]
+                }
+            });
+
+            new Chart(order, {
+                type: 'line',
+                data: {
+                    labels: orderLabels,
+                    datasets: [{
+                        label: '# Orders',
+                        data: orderData,
+                        backgroundColor: ['#81c784']
+                    }]
+                }
+            });
+        });
+    }
+})();
+
+/***/ }),
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42226,7 +42285,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($, jQuery) {(function () {
@@ -42259,7 +42318,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(0)))
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($, jQuery) {(function () {
@@ -42335,7 +42394,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(0)))
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42427,7 +42486,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42487,7 +42546,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42518,7 +42577,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42565,7 +42624,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42586,7 +42645,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -42612,6 +42671,9 @@ module.exports = __webpack_amd_options__;
                 ACMESTORE.admin.changeEvent();
                 ACMESTORE.admin.delete();
                 break;
+            case 'adminDashboard':
+                ACMESTORE.admin.dashboard();
+                break;
             case 'adminCategories':
                 ACMESTORE.admin.update();
                 ACMESTORE.admin.delete();
@@ -42625,7 +42687,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

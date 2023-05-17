@@ -14,7 +14,7 @@
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </div>
                             <div class="small-9 cell">
-                                <p>Total Orders</p><h4>500</h4>
+                                <p>Total Orders</p><h4>{{$orders}}</h4>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                                 <i class="fa fa-thermometer-empty" aria-hidden="true"></i>
                             </div>
                             <div class="small-9 cell">
-                                <p>Stock</p><h4>500</h4>
+                                <p>Stock</p><h4>{{$products}}</h4>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                                 <i class="fa fa-money" aria-hidden="true"></i>
                             </div>
                             <div class="small-9 cell">
-                                <p>Revenue</p><h4>500</h4>
+                                <p>Revenue</p><h4>${{number_format($payments,2)}}</h4>
                             </div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                                 <i class="fa fa-users" aria-hidden="true"></i>
                             </div>
                             <div class="small-9 cell">
-                                <p>Signup</p><h4>500</h4>
+                                <p>Signup</p><h4>{{$users}}</h4>
                             </div>
                         </div>
                     </div>
@@ -109,5 +109,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
