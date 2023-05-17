@@ -42451,6 +42451,7 @@ module.exports = __webpack_amd_options__;
                     var postData = $.param({ product_id: product_id, operator: operator });
                     axios.post('/cart/update-qty', postData).then(function (response) {
                         app.displayItems(200);
+                        app.paypalCheckout();
                     });
                 },
                 removeItem: function removeItem(index) {
@@ -42458,12 +42459,14 @@ module.exports = __webpack_amd_options__;
                     axios.post('/cart/remove-item', postData).then(function (response) {
                         $(".notify").css("display", 'block').delay(4000).slideUp(300).html(response.data.success);
                         app.displayItems(200);
+                        app.paypalCheckout();
                     });
                 },
                 emptyCart: function emptyCart() {
                     axios.post('/cart/empty').then(function (response) {
                         $(".notify").css("display", 'block').delay(4000).slideUp(300).html(response.data.success);
                         app.displayItems(10);
+                        app.paypalCheckout();
                     });
                 },
                 checkout: function checkout() {
@@ -42475,10 +42478,31 @@ module.exports = __webpack_amd_options__;
                         zipCode: true,
                         currency: 'USD'
                     });
+                },
+                paypalCheckout: function paypalCheckout() {
+                    setTimeout(function () {
+                        paypal.Button.render({
+                            env: 'sandbox',
+
+                            commit: true, // Show a 'Pay Now' button
+
+                            style: {
+                                color: 'gold',
+                                size: 'small'
+                            },
+
+                            payment: function payment(data) {},
+
+                            onAuthorize: function onAuthorize(data) {}
+                        }, '#paypalBtn');
+                    }, 2000);
                 }
             },
             created: function created() {
                 this.displayItems(2000);
+            },
+            mounted: function mounted() {
+                this.paypalCheckout();
             }
         });
     };

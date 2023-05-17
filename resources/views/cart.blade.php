@@ -4,6 +4,9 @@
 @section('stripe-checkout')
     <script src="https://checkout.stripe.com/checkout.js"></script>
 @endsection
+@section('paypal-checkout')
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+@endsection
 
 @section('content')
     <div class="shopping_cart" id="shopping_cart" style="padding: 6rem;">
@@ -94,18 +97,19 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="cell small-12 medium-6">
+                        <div class="text-right">
                             <button @click.prevent="emptyCart" class="button alert">
                                 Empty Cart &nbsp; <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
-                        </div>
-                        <div class="text-right">
                             <a href="/" class="button secondary">
                                 Continue Shopping &nbsp; <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
-                            <button  @click.prevent="checkout" v-if="authenticated" class="button success">
-                                Checkout &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
-                            </button>
+                            <span v-if="authenticated">
+                                <button @click.prevent="checkout" class="button success">
+                                    Pay With Card &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                                </button>
+                                <span id="paypalBtn"></span>
+                            </span>
                             <span v-else>
                                 <a href="/login" class="button success">
                                     Checkout &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>

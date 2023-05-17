@@ -53,6 +53,7 @@
                     var postData = $.param({product_id:product_id, operator:operator});
                     axios.post('/cart/update-qty', postData).then(function (response) {
                         app.displayItems(200);
+                        app.paypalCheckout();
                     })
                 },
                 removeItem: function (index) {
@@ -61,6 +62,7 @@
                         $(".notify").css("display", 'block').delay(4000).slideUp(300)
                             .html(response.data.success);
                         app.displayItems(200);
+                        app.paypalCheckout();
                     })
                 },
                 emptyCart: function () {
@@ -68,6 +70,7 @@
                         $(".notify").css("display", 'block').delay(4000).slideUp(300)
                             .html(response.data.success);
                         app.displayItems(10);
+                        app.paypalCheckout();
                     });
                 },
                 checkout: function (){
@@ -79,10 +82,35 @@
                         zipCode: true,
                         currency: 'USD'
                     });
+                },
+                paypalCheckout: function () {
+                       setTimeout(function (){
+                           paypal.Button.render({
+                               env: 'sandbox',
+
+                               commit: true, // Show a 'Pay Now' button
+
+                               style: {
+                                   color: 'gold',
+                                   size: 'small'
+                               },
+
+                               payment: function(data) {
+
+                               },
+
+                               onAuthorize: function(data) {
+
+                               }
+                           }, '#paypalBtn');
+                       },2000);
                 }
             },
             created: function () {
                 this.displayItems(2000);
+            },
+            mounted: function () {
+                this.paypalCheckout();
             }
         });
     };
