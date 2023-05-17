@@ -5,7 +5,7 @@
 
     <div class="image-holder text-center">
         <img src="/images/manager.jpg" alt="Admin">
-        <p>Cebotari John</p>
+        <p>{{ user()->fullname }}</p>
     </div>
 
     <ul class="vertical menu">
