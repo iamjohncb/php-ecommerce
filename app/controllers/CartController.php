@@ -185,7 +185,7 @@ class CartController extends BaseController
                     $totalPrice = number_format($totalPrice, 2);
 
                     //store info
-                    Order::create([
+                    OrderDetail::create([
                         'user_id' => user()->id,
                         'product_id' => $productId,
                         'unit_price' => $item->price,
@@ -205,6 +205,11 @@ class CartController extends BaseController
                         'quantity' => $quantity
                     ]);
                 }
+
+                Order::create([
+                    'user_id' => user()->id,
+                    'order_no' => $order_id
+                ]);
 
                 Payment::create([
                     'user_id' => user()->id,
