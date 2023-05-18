@@ -83,7 +83,7 @@
                     </div>
                     <div class="card-divider">
                         <div class="grid-x cell">
-                            <a href="#">Registered Users</a>
+                            <a href="/admin/users">Registered Users</a>
                         </div>
                     </div>
                 </div>
