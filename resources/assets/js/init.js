@@ -21,6 +21,9 @@
                 ACMESTORE.admin.changeEvent();
                 ACMESTORE.admin.delete();
                 break;
+            case 'adminUsers':
+                ACMESTORE.admin.update();
+                break;
             case 'adminDashboard':
                 ACMESTORE.admin.dashboard();
                 break;
