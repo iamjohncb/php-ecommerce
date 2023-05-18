@@ -84,7 +84,7 @@
         </form>
         <!--Delete Button -->
         <div class="grid-x grid-padding-x">
-            <div class="small-12 medium-11">
+            <div class="small-12 medium-11 cell">
                 <table data-form="deleteForm">
                     <tr style="border: 1px solid #ffffff !important;">
                         <td style="border: 1px solid #ffffff !important;">

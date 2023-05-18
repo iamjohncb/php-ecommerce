@@ -43,7 +43,7 @@
                         <label>Product Subcategory:
                             <select name="subcategory" id="product-subcategory">
                                 <option value="{{ \App\classes\Request::old('post', 'subcategory')?:"" }}">
-                                    {{ \App\Classes\Request::old('post', 'subcategory')?:"Select Subcategory" }}
+                                    {{ \App\classes\Request::old('post', 'subcategory')?:"Select Subcategory" }}
                                 </option>
                             </select>
                         </label>
