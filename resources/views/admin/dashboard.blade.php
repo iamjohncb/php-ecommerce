@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-divider">
                         <div class="grid-x cell">
-                            <a href="#">Order Details</a>
+                            <a href="/admin/transactions/orders">Order Details</a>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="card-divider">
                         <div class="grid-x cell">
-                            <a href="#">Payment Details</a>
+                            <a href="/admin/transactions/payments">Payment Details</a>
                         </div>
                     </div>
                 </div>
