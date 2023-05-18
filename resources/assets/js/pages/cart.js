@@ -85,8 +85,19 @@
                 },
                 paypalCheckout: function () {
                        setTimeout(function (){
+                           var payPalInfo = $('#paypalInfo');
+                           var baseUrl = payPalInfo.data('app-baseurl');
+                           var environment = payPalInfo.data('app-env');
+                           var env = 'sandbox';
+
+                           if(environment === 'production'){
+                               env = 'production';
+                           }
+
+                           var CREATE_PAYMENT_ROUTE = baseUrl + '/paypal/create-payment';
+                           var CREATE_PAYMENT_EXECUTE_ROUTE = baseUrl + '/paypal/execute-payment';
                            paypal.Button.render({
-                               env: 'sandbox',
+                               env: env,
 
                                commit: true, // Show a 'Pay Now' button
 
@@ -96,14 +107,24 @@
                                },
 
                                payment: function(data) {
-
+                                   return paypal.request.post(CREATE_PAYMENT_ROUTE)
+                                       .then(function (data) {
+                                           return data.id;
+                                       })
                                },
 
                                onAuthorize: function(data) {
-
+                                   return paypal.request.post(CREATE_PAYMENT_EXECUTE_ROUTE,
+                                       {paymentId: data.paymentID, payerId: data.payerID})
+                                       .then(function (response) {
+                                           $(".notify").css("display", 'block').delay(4000).slideUp(300)
+                                               .html(response.success);
+                                           app.displayItems(10);
+                                           app.paypalCheckout();
+                                       })
                                }
                            }, '#paypalBtn');
-                       },2000);
+                       },3000);
                 }
             },
             created: function () {

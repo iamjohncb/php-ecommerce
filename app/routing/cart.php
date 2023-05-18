@@ -8,3 +8,8 @@ $router->map('POST', '/cart/remove-item', 'App\controllers\CartController@remove
 
 $router->map('POST', '/cart/empty', 'App\controllers\CartController@emptyCart', 'empty_cart');
 $router->map('POST', '/cart/payment', 'App\controllers\CartController@checkout', 'handle_payment');
+
+$router->map('POST', '/paypal/create-payment',
+    'App\controllers\CartController@paypalCreatePayment', 'paypal_create_payment');
+$router->map('POST', '/paypal/execute-payment',
+    'App\controllers\CartController@paypalExecutePayment', 'paypal_execute_payment');

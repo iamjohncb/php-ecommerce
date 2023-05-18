@@ -8,7 +8,8 @@
         "phpmailer/phpmailer": "^6.8",
         "voku/pagination": "^4.0",
         "nesbot/carbon": "^1.39",
-        "stripe/stripe-php": "^10.13"
+        "stripe/stripe-php": "^10.13",
+        "guzzlehttp/guzzle": "^7.6"
 
     },
 

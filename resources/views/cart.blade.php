@@ -109,6 +109,8 @@
                                     Pay With Card &nbsp; <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
                                 </button>
                                 <span id="paypalBtn"></span>
+                                <span id="paypalInfo" data-app-env="{{ getenv('APP_ENV') }}"
+                                      data-app-baseurl="{{ getenv('APP_URL') }}"></span>
                             </span>
                             <span v-else>
                                 <a href="/login" class="button success">
